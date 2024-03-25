@@ -11,15 +11,14 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
-var crypto = _interopDefault(require('crypto'));
+var crypto = _interopDefault(require('@arangodb/crypto'));
 
 const createDigest = (algorithm, hmacKey, counter) => {
-  const hmac = crypto.createHmac(algorithm, Buffer.from(hmacKey, 'hex'));
-  const digest = hmac.update(Buffer.from(counter, 'hex')).digest();
-  return digest.toString('hex');
+  const hmac = crypto.hmac(Buffer.from(hmacKey, 'hex'), Buffer.from(counter, 'hex'), algorithm);
+  return hmac;
 };
 const createRandomBytes = (size, encoding) => {
-  return crypto.randomBytes(size).toString(encoding);
+  return crypto.genRandomBytes(size).toString(encoding);
 };
 
 exports.createDigest = createDigest;
